@@ -1,5 +1,7 @@
 # Custom Tdarr Plugins
 
+Plugins I created/modified to be used in Tdarr
+
 ## How to use
 
 ### Creating a local plugin
