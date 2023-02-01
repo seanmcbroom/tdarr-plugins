@@ -85,7 +85,7 @@ const details = () => ({
     let videoCodec = "libx264"
   
     if (otherArguments['nodeHardwareType'] == "nvenc") {
-      videoCodec = "h264_nvenc"
+      videoCodec = "nvenc_h264"
     }
   
     // Set up required variables.
