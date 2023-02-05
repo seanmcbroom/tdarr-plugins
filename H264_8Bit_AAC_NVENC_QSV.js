@@ -94,6 +94,8 @@ const details = () => ({
       encoder = "h264_nvenc"
     } else if (nodeHardwareType == "qsv") {
       encoder = "h264_qsv"
+    } else if (nodeHardwareType == "vaapi") {
+      encoder = "h264_vaapi"
     }
     
     // Check if force_conform option is checked.
