@@ -1,13 +1,12 @@
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
 
 const details = () => ({
-    id: '0uWvO8xjk',
+    id: 'nxCnnqhew',
     Stage: 'Pre-processing', // Preprocessing or Post-processing. Determines when the plugin will be executed.
-    Name: 'Custom-Transcode to H264 8 Bit AAC using FFMPEG and NVENC ',
+    Name: 'Custom-Transcode to H264 8 Bit AAC using FFMPEG and NVENC/QSV/CPU ',
     Type: 'Video',
     Operation: 'Transcode',
-    Description: `Files not in H264 8 Bit AAC will be transcoded into H264 8 Bit AAC using Nvidia GPU with ffmpeg.
-                    NVDEC & NVENC compatable GPU required.`,
+    Description: `Files not in H264 8 Bit AAC will be transcoded into H264 8 Bit AAC using ffmpeg.`,
     Version: '1.00',
     Tags: 'pre-processing,ffmpeg,video only,nvenc h264,configurable',
     // Provide tags to categorise your plugin in the plugin browser.Tag options: h265,hevc,h264,nvenc h265,
@@ -81,20 +80,26 @@ const details = () => ({
       return response;
     }
 
-    // Check if using GPU to encode
-    let videoCodec = "libx264"
-
-    if (otherArguments['nodeHardwareType'] == "nvenc") {
-      videoCodec = "h264_nvenc"
-    }
-
     // Set up required variables.
     let videoIdx = 0;
     let extraArguments = '';
+    let encoder = "libx264"
     let isAAC = false;
     let isH264 = false;
     let isCorrectContainer = false;
 
+
+
+    // Check if using GPU to encode
+    if (otherArguments['nodeHardwareType'] == "nvenc") {
+      encoder = "h264_nvenc"
+    }
+
+    if (otherArguments['nodeHardwareType'] == "qsv") {
+      encoder = "h264_qsv"
+      //extraArguments += `-init_hw_device qsv=hw -filter_hw_device `;
+    }
+    
     // Check if force_conform option is checked.
     // If so then check streams and add any extra parameters required to make file conform with output format.
     if (inputs.force_conform === 'true') {
@@ -222,7 +227,7 @@ const details = () => ({
     }
 
     response.preset += `,-map 0:v -map 0:a -map 0:s? `
-    + `-c:v ${videoCodec} -crf 13 -vf format=yuv420p `
+    + `-c:v ${encoder} -crf 13 -vf format=yuv420p `
     + `-c:a copy -c:s copy ${extraArguments}`;
     response.processFile = true;
     response.infoLog += 'File is not h264. Transcoding. \n';
