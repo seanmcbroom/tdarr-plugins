@@ -81,23 +81,19 @@ const details = () => ({
     }
 
     // Set up required variables.
-    let videoIdx = 0;
-    let extraArguments = '';
-    let encoder = "libx264"
+    const nodeHardwareType = otherArguments['nodeHardwareType'];
+    let encoder = "libx264";
     let isAAC = false;
     let isH264 = false;
     let isCorrectContainer = false;
-
-
-
-    // Check if using GPU to encode
-    if (otherArguments['nodeHardwareType'] == "nvenc") {
+    let videoIdx = 0;
+    let extraArguments = '';
+    
+    // Check if using GPU/iGPU to encode
+    if (nodeHardwareType == "nvenc") {
       encoder = "h264_nvenc"
-    }
-
-    if (otherArguments['nodeHardwareType'] == "qsv") {
+    } else if (nodeHardwareType == "qsv") {
       encoder = "h264_qsv"
-      //extraArguments += `-init_hw_device qsv=hw -filter_hw_device `;
     }
     
     // Check if force_conform option is checked.
