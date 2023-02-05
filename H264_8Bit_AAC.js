@@ -8,7 +8,7 @@ const details = () => ({
     Operation: 'Transcode',
     Description: `Files not in H264 8 Bit AAC will be transcoded into H264 8 Bit AAC using ffmpeg.`,
     Version: '1.00',
-    Tags: 'pre-processing,ffmpeg,video only,nvenc h264,configurable',
+    Tags: 'pre-processing,ffmpeg,video only,nvenc h264,qsv h264,configurable',
     // Provide tags to categorise your plugin in the plugin browser.Tag options: h265,hevc,h264,nvenc h265,
     // nvenc h264,video only,audio only,subtitle only,handbrake,ffmpeg
     // radarr,sonarr,pre-processing,post-processing,configurable
@@ -94,6 +94,7 @@ const details = () => ({
       encoder = "h264_nvenc"
     } else if (nodeHardwareType == "qsv") {
       encoder = "h264_qsv"
+      extraArguments += "-global_quality 15 "; // Quality settings for QSV encoding
     } else if (nodeHardwareType == "vaapi") {
       encoder = "h264_vaapi"
     }
