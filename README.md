@@ -2,6 +2,9 @@
 
 Plugins I created/modified to be used in Tdarr
 
+## H264
+I recommend adding a subtitle extractor in your stack (before this plugin) because all burnt in subtitles will be removed.
+
 ## How to use
 
 ### Creating a local plugin
