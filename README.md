@@ -3,7 +3,7 @@
 Plugins I created/modified to be used in Tdarr
 
 ## H264 AAC
-I recommend adding a subtitle extractor in your stack (before this plugin) because all burnt in subtitles will be removed.
+I recommend adding a subtitle extractor in your stack (before this plugin) because all embedded subtitles will be removed.
 
 ## How to use
 
